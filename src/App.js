@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 // const model = require('./model.js');
 import MODELloadMessages from './model.js';
+import Toolbar from './toolbar.jsx';
+
 
 class App extends Component {
   state = {
@@ -9,7 +11,7 @@ class App extends Component {
     // ----------------
     // DON'T DELETE!!!!
     // ----------------
-    // The following is loaded in compomnentDidMount
+    // The following is loaded in componentDidMount
     // messages: [ {
     //  {
     //     "body": "Hey, it's Bilson,\n\nThe future is scary but ...",
@@ -37,11 +39,8 @@ class App extends Component {
   ************************************* */
   async loadMessages() {
     console.log('App:loadMessages()');
-    // const response = await fetch('http://localhost:8082/api/messages');
-    // const json = await response.json();
-    const json = await MODELloadMessages();
     this.setState({
-      messages: json,
+      messages: await MODELloadMessages(),
     });
   }
 
@@ -52,6 +51,7 @@ class App extends Component {
     console.log("messages: ", this.state.messages);
     return (
       <div className="App">
+        <Toolbar />
         my app
       </div>
     );
