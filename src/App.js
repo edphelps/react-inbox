@@ -1,8 +1,55 @@
 import React, { Component } from 'react';
 import './App.css';
+// const model = require('./model.js');
+import MODELloadMessages from './model.js';
 
 class App extends Component {
+  state = {
+
+    // ----------------
+    // DON'T DELETE!!!!
+    // ----------------
+    // The following is loaded in compomnentDidMount
+    // messages: [ {
+    //  {
+    //     "body": "Hey, it's Bilson,\n\nThe future is scary but ...",
+    //     "id": 8,
+    //     "labels": [],
+    //     "read": true,
+    //     "starred": true,
+    //     "subject": "If we connect the sensor, we can get to the HDD port ..."
+    //  },
+    //  {...} ]
+  }
+
+  /* **********************************
+  *  componentDidMount()
+  *  load the books and get rendering
+  ************************************* */
+  async componentDidMount() {
+    console.log('App:componentDidMount()');
+    this.loadMessages();
+  }
+
+  /* **********************************
+  *  loadMessages()
+  *  Load messages from the api and setState()
+  ************************************* */
+  async loadMessages() {
+    console.log('App:loadMessages()');
+    // const response = await fetch('http://localhost:8082/api/messages');
+    // const json = await response.json();
+    const json = await MODELloadMessages();
+    this.setState({
+      messages: json,
+    });
+  }
+
+  /* **********************************
+  *  render()
+  ************************************* */
   render() {
+    console.log("messages: ", this.state.messages);
     return (
       <div className="App">
         my app
