@@ -58,7 +58,6 @@ class App extends Component {
   *  render()
   ************************************* */
   render() {
-    console.log('messages: ', this.state.messages);
     const { messages } = this.state;
     return (
       <div className="container App">

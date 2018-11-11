@@ -11,7 +11,7 @@ const Labels = ({ labels }) => {
   console.log('Labels::render()');
   return (
     <span>
-      { labels.map(label => <Label label={label} />) }
+      { labels.map(label => <Label key={label} label={label} />) }
     </span>
   );
 };
@@ -63,7 +63,7 @@ export default class Message extends Component {
           <div className="col-xs-1">
             <div className="row">
               <div className="col-xs-2">
-                <input type="checkbox" checked={selected} onClick={this.onclickSelect} />
+                <input type="checkbox" checked={selected} onChange={this.onclickSelect} />
               </div>
               <div className="col-xs-2">
                 <i className={`${((starred) ? 'fas fa-star' : 'far fa-star')}`} onClick={this.onclickStar} />
