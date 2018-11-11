@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import Message from './message';
 
+/* ******************************************************
+*  Messages lists messages.
+*  State tracks which messages have been clicked on.
+********************************************************* */
 export default class Messages extends Component {
   /* **********************************
   *  constructor
@@ -8,6 +12,8 @@ export default class Messages extends Component {
   constructor(props) {
     console.log("Messages::constructor()");
     super(props);
+
+    // state to track which messages have been selected (checkbox)
     this.state = {
       setSelectedMessages: new Set(),
     };
@@ -38,8 +44,9 @@ export default class Messages extends Component {
   render() {
     console.log('Messages::render()');
 
-    // if still loading...
     const { messages, toggleStarredCB } = this.props;
+
+    // if still loading...
     if (!messages) {
       return (
         <div>
@@ -47,9 +54,6 @@ export default class Messages extends Component {
         </div>
       )
     }
-
-    // determine if selected
-    // const selected = this.setSelectedMessages.has(message.id);
 
     return (
       <div>
