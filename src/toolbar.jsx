@@ -20,14 +20,19 @@ export default class Toolbar extends Component {
   ************************************* */
   render() {
     console.log('Toolbar::render()');
+    const { setofSelectedMessages, cntUnread } = this.props;
     return (
 
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
-            <span className="badge badge">2</span>
-            unread messages
+            <span className="badge">{cntUnread}</span>
+            unread message{(cntUnread===1) ? '' : 's'}
           </p>
+
+          <a class="btn btn-danger">
+            <i className="fa fa-plus"></i>
+          </a>
 
           <button type="button" className="btn btn-default">
             <i className="far fa-check-square" />

@@ -9,7 +9,7 @@ class App extends Component {
   state = {
 
     // track which messages have been selected (via checkbox)
-    setSelectedMessages: new Set(),
+    setofSelectedMessages: new Set(),
 
     // ----------------
     // DON'T DELETE!!!!
@@ -43,10 +43,10 @@ class App extends Component {
   toggleSelected = (id) => {
     this.setState((prevState) => {
       const newState = { ...prevState };
-      if (newState.setSelectedMessages.has(id)) {
-        newState.setSelectedMessages.delete(id);
+      if (newState.setofSelectedMessages.has(id)) {
+        newState.setofSelectedMessages.delete(id);
       } else {
-        newState.setSelectedMessages.add(id);
+        newState.setofSelectedMessages.add(id);
       }
       return {
         newState,
@@ -79,13 +79,27 @@ class App extends Component {
   *  render()
   ************************************* */
   render() {
-    const { messages, setSelectedMessages } = this.state;
+    const { messages, setofSelectedMessages } = this.state;
+
+    // get the unread count to pass to toolbar
+    let cntUnread = 0;
+    if (messages) {
+      cntUnread = messages.reduce((a, c) => {
+        const retVal = a + ((!c.read) ? 1 : 0);
+        return retVal;
+      }, 0);
+    }
+
+    // render
     return (
       <div className="container App">
-        <Toolbar />
+        <Toolbar
+          setofSelectedMessages={setofSelectedMessages}
+          cntUnread={cntUnread}
+        />
         <Messages
           messages={messages}
-          setSelectedMessages={setSelectedMessages}
+          setofSelectedMessages={setofSelectedMessages}
           toggleStarredCB={this.toggleStarred}
           toggleSelectedCB={this.toggleSelected}
         />

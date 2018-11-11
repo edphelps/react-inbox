@@ -55,15 +55,6 @@ export default class Message extends Component {
     const { toggleSelectedCB, message } = this.props;
     const { id } = message;
     toggleSelectedCB(id);
-
-    // Version that tracks state locally
-    // this.setState((prevState) => {
-    //   const newState = { ...prevState };
-    //   newState.isSelected = !prevState.isSelected;
-    //   return {
-    //     newState,
-    //   }
-    // });
   }
 
   /* **********************************
@@ -71,8 +62,6 @@ export default class Message extends Component {
   ************************************* */
   render() {
     console.log('Message::render()');
-    // const { message } = this.props;
-    // const { selected } = this.state;
     const { message, selected } = this.props;
     const {
       body, id, labels, read, starred, subject
