@@ -16,6 +16,15 @@ export default class Toolbar extends Component {
   }
 
   /* **********************************
+  *  click the select all / clear all button
+  ************************************* */
+  onclickSelectAll = () => {
+    console.log('Toolbar::onclickSelectAll()');
+    const { toggleSelectAllCB } = this.props;
+    toggleSelectAllCB();
+  }
+
+  /* **********************************
   *  render()
   ************************************* */
   render() {
@@ -40,32 +49,33 @@ export default class Toolbar extends Component {
         <div className="col-md-12">
           <p className="pull-right">
             <span className="badge">{cntUnread}</span>
-            unread message{(cntUnread===1) ? '' : 's'}
+            unread message&nbsp;
+            {(cntUnread === 1) ? '' : 's'}
           </p>
 
-          <a class="btn btn-danger">
-            <i className="fa fa-plus"></i>
+          {/* Compose new message */}
+          <a className="btn btn-danger">
+            <i className="fa fa-plus" />
           </a>
 
-          <button type="button" className="btn btn-default">
+          {/* Select all / Clear all */}
+          <button type="button" className="btn btn-default" onClick={this.onclickSelectAll}>
             <i className={sbtnSelectAll} />
           </button>
 
+          {/* bulk actions */}
           <button type="button" className="btn btn-default" disabled={disableBulkActionButtons}>
             Mark As Read
           </button>
-
           <button type="button" className="btn btn-default" disabled={disableBulkActionButtons}>
             Mark As Unread
           </button>
-
           <select className="form-control label-select" disabled={disableBulkActionButtons}>
             <option>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
-
           <select className="form-control label-select" disabled={disableBulkActionButtons}>
             <option>Remove label</option>
             <option value="dev">dev</option>
@@ -73,6 +83,7 @@ export default class Toolbar extends Component {
             <option value="gschool">gschool</option>
           </select>
 
+          {/* trash can */}
           <button type="button" className="btn btn-default" disabled={disableBulkActionButtons}>
             <i className="far fa-trash-alt" />
           </button>

@@ -65,6 +65,29 @@ class App extends Component {
   }
 
   /* **********************************
+  *  toggleSelectAll()
+  *  toggle selection of all messages or clear message selection
+  ************************************* */
+  toggleSelectAll = () => {
+    console.log('App:toggleSelectAll()');
+    this.setState((prevState) => {
+      const newState = { ...prevState };
+
+      // if there are selections, clear them
+      if (newState.setofSelectedMessages.size) {
+        newState.setofSelectedMessages.clear();
+        // newState.setofSelectedMessages = new Set();
+      // else select all messages
+      } else {
+        newState.messages.forEach(message => newState.setofSelectedMessages.add(message.id));
+      }
+      return {
+        newState,
+      };
+    });
+  }
+
+  /* **********************************
   *  loadMessages()
   *  Load messages from the api and setState()
   ************************************* */
@@ -106,6 +129,7 @@ class App extends Component {
           setofSelectedMessages={setofSelectedMessages}
           cntAll={messages.length}
           cntUnread={cntUnread}
+          toggleSelectAllCB={this.toggleSelectAll}
         />
         <Messages
           messages={messages}
