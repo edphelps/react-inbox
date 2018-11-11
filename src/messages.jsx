@@ -14,29 +14,29 @@ export default class Messages extends Component {
     super(props);
 
     // state to track which messages have been selected (checkbox)
-    this.state = {
-      setSelectedMessages: new Set(),
-    };
+    // this.state = {
+    //   setSelectedMessages: new Set(),
+    // };
   }
 
   /* **********************************
   *  toggleSelected()
   *  Called when selcted checkbox is toggled
   ************************************* */
-  toggleSelected = (id) => {
-    this.setState((prevState) => {
-      const newState = { ...prevState };
-      if (newState.setSelectedMessages.has(id)) {
-        newState.setSelectedMessages.delete(id);
-      } else {
-        newState.setSelectedMessages.add(id);
-      }
-
-      return {
-        newState,
-      }
-    });
-  }
+  // toggleSelected = (id) => {
+  //   this.setState((prevState) => {
+  //     const newState = { ...prevState };
+  //     if (newState.setSelectedMessages.has(id)) {
+  //       newState.setSelectedMessages.delete(id);
+  //     } else {
+  //       newState.setSelectedMessages.add(id);
+  //     }
+  //
+  //     return {
+  //       newState,
+  //     }
+  //   });
+  // }
 
   /* **********************************
   *  render()
@@ -44,7 +44,7 @@ export default class Messages extends Component {
   render() {
     console.log('Messages::render()');
 
-    const { messages, toggleStarredCB } = this.props;
+    const { messages, setSelectedMessages, toggleStarredCB, toggleSelectedCB } = this.props;
 
     // if still loading...
     if (!messages) {
@@ -61,8 +61,8 @@ export default class Messages extends Component {
           <Message
             key={message.id}
             message={message}
-            selected={this.state.setSelectedMessages.has(message.id)}
-            toggleSelectedCB={this.toggleSelected}
+            selected={setSelectedMessages.has(message.id)}
+            toggleSelectedCB={toggleSelectedCB}
             toggleStarredCB={toggleStarredCB}
           />))}
       </div>

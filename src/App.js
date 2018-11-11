@@ -8,6 +8,9 @@ import Messages from './messages';
 class App extends Component {
   state = {
 
+    // track which messages have been selected (via checkbox)
+    setSelectedMessages: new Set(),
+
     // ----------------
     // DON'T DELETE!!!!
     // ----------------
@@ -31,6 +34,24 @@ class App extends Component {
   async componentDidMount() {
     console.log('App:componentDidMount()');
     this.loadMessages();
+  }
+
+  /* **********************************
+  *  toggleSelected()
+  *  Called when selcted checkbox is toggled
+  ************************************* */
+  toggleSelected = (id) => {
+    this.setState((prevState) => {
+      const newState = { ...prevState };
+      if (newState.setSelectedMessages.has(id)) {
+        newState.setSelectedMessages.delete(id);
+      } else {
+        newState.setSelectedMessages.add(id);
+      }
+      return {
+        newState,
+      };
+    });
   }
 
   /* **********************************
@@ -58,13 +79,15 @@ class App extends Component {
   *  render()
   ************************************* */
   render() {
-    const { messages } = this.state;
+    const { messages, setSelectedMessages } = this.state;
     return (
       <div className="container App">
         <Toolbar />
         <Messages
           messages={messages}
+          setSelectedMessages={setSelectedMessages}
           toggleStarredCB={this.toggleStarred}
+          toggleSelectedCB={this.toggleSelected}
         />
       </div>
     );
