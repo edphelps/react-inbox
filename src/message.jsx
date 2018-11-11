@@ -23,7 +23,7 @@ export default class Message extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isExpanded: false,
+      isSelected: false,
     };
   }
 
@@ -42,9 +42,20 @@ export default class Message extends Component {
   ************************************* */
   onclickSelect = (e) => {
     console.log('Message::onclickSelect');
-    const { toggleSelectedCB, message } = this.props;
-    const { id } = message;
-    toggleSelectedCB(id);
+
+    this.setState((prevState) => {
+      const newState = { ...prevState };
+      newState.isSelected = !prevState.isSelected;
+      return {
+        newState,
+      }
+    });
+
+    // Version that uses CB to Messages
+    // console.log('Message::onclickSelect');
+    // const { toggleSelectedCB, message } = this.props;
+    // const { id } = message;
+    // toggleSelectedCB(id);
   }
 
   /* **********************************
@@ -52,7 +63,9 @@ export default class Message extends Component {
   ************************************* */
   render() {
     console.log('Message::render()');
-    const { message, selected } = this.props;
+    const { message } = this.props;
+    const { selected } = this.state;
+    // const { message, selected } = this.props;
     const {
       body, id, labels, read, starred, subject
     } = message;
