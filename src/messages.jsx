@@ -3,7 +3,7 @@ import Message from './message';
 
 /* ******************************************************
 *  Messages component lists messages.
-*  No state
+*  State:  tracks which messages are selected
 ********************************************************* */
 export default class Messages extends Component {
   /* **********************************
@@ -21,7 +21,7 @@ export default class Messages extends Component {
 
   /* **********************************
   *  toggleSelected()
-  *  toggle the selcted checkbox8
+  *  Called when selcted checkbox is toggled
   ************************************* */
   toggleSelected = (id) => {
     this.setState((prevState) => {

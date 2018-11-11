@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+/* ******************************************************
+*  Label displays a single label
+********************************************************* */
 const Label = ({ label }) => {
   console.log(`Label::render(${label})`);
   return (
@@ -7,6 +10,9 @@ const Label = ({ label }) => {
   );
 };
 
+/* ******************************************************
+*  Labels lists labels
+********************************************************* */
 const Labels = ({ labels }) => {
   console.log('Labels::render()');
   return (
@@ -16,6 +22,10 @@ const Labels = ({ labels }) => {
   );
 };
 
+/* ******************************************************
+*  Message Component displays a message.
+*  State:  no state, TODO: switch to function
+********************************************************* */
 export default class Message extends Component {
   /* **********************************
   *  constructor
@@ -38,10 +48,10 @@ export default class Message extends Component {
   }
 
   /* **********************************
-  *  onclickSelect
+  *  onchangeSelected
   ************************************* */
-  onclickSelect = () => {
-    console.log('Message::onclickSelect');
+  onchangeSelected = () => {
+    console.log('Message::onchangeSelected');
     const { toggleSelectedCB, message } = this.props;
     const { id } = message;
     toggleSelectedCB(id);
@@ -74,7 +84,7 @@ export default class Message extends Component {
           <div className="col-xs-1">
             <div className="row">
               <div className="col-xs-2">
-                <input type="checkbox" checked={selected} onChange={this.onclickSelect} />
+                <input type="checkbox" checked={selected} onChange={this.onchangeSelected} />
               </div>
               <div className="col-xs-2">
                 <i className={`${((starred) ? 'fas fa-star' : 'far fa-star')}`} onClick={this.onclickStar} />
