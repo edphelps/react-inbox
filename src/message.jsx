@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
 const Label = ({ label }) => {
-  console.log('** Label::render() label: ', label);
+  console.log(`Label::render(${label})`);
   return (
     <span className="label label-warning">{ label }</span>
   );
 };
 
 const Labels = ({ labels }) => {
-  console.log('** Labels::render()');
+  console.log('Labels::render()');
   return (
     <span>
       { labels.map(label => <Label label={label} />) }
@@ -38,23 +38,32 @@ export default class Message extends Component {
   }
 
   /* **********************************
+  *  onclickSelect
+  ************************************* */
+  onclickSelect = (e) => {
+    console.log('Message::onclickSelect');
+    const { toggleSelectedCB, message } = this.props;
+    const { id } = message;
+    toggleSelectedCB(id);
+  }
+
+  /* **********************************
   *  render()
   ************************************* */
   render() {
     console.log('Message::render()');
-    const { message } = this.props;
+    const { message, selected } = this.props;
     const {
       body, id, labels, read, starred, subject
     } = message;
-    const selected = false;
-    console.log("** Message::render() labels: ", labels);
+
     return (
       <div>
         <div className={`row message ${(read ? 'read' : 'unread')} ${(selected ? 'selected' : '')}`}>
           <div className="col-xs-1">
             <div className="row">
               <div className="col-xs-2">
-                <input type="checkbox" checked={selected}/>
+                <input type="checkbox" checked={selected} onClick={this.onclickSelect} />
               </div>
               <div className="col-xs-2">
                 <i className={`${((starred) ? 'fas fa-star' : 'far fa-star')}`} onClick={this.onclickStar} />

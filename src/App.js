@@ -63,7 +63,10 @@ class App extends Component {
     return (
       <div className="container App">
         <Toolbar />
-        <Messages messages={messages} toggleStarredCB={this.toggleStarred} />
+        <Messages
+          messages={messages}
+          toggleStarredCB={this.toggleStarred}
+        />
       </div>
     );
   }

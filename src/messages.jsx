@@ -6,10 +6,30 @@ export default class Messages extends Component {
   *  constructor
   ************************************* */
   constructor(props) {
+    console.log("Messages::constructor()");
     super(props);
     this.state = {
-      isExpanded: false,
+      setSelectedMessages: new Set(),
     };
+  }
+
+  /* **********************************
+  *  toggleSelected()
+  *  toggle the selcted checkbox8
+  ************************************* */
+  toggleSelected = (id) => {
+    this.setState((prevState) => {
+      const newState = { ...prevState };
+      if (newState.setSelectedMessages.has(id)) {
+        newState.setSelectedMessages.delete(id);
+      } else {
+        newState.setSelectedMessages.add(id);
+      }
+
+      return {
+        newState,
+      }
+    });
   }
 
   /* **********************************
@@ -17,6 +37,8 @@ export default class Messages extends Component {
   ************************************* */
   render() {
     console.log('Messages::render()');
+
+    // if still loading...
     const { messages, toggleStarredCB } = this.props;
     if (!messages) {
       return (
@@ -25,9 +47,20 @@ export default class Messages extends Component {
         </div>
       )
     }
+
+    // determine if selected
+    // const selected = this.setSelectedMessages.has(message.id);
+
     return (
       <div>
-        { messages.map(message => <Message key={message.id} message={message} toggleStarredCB={toggleStarredCB} />)}
+        { messages.map(message => (
+          <Message
+            key={message.id}
+            message={message}
+            selected={this.state.setSelectedMessages.has(message.id)}
+            toggleSelectedCB={this.toggleSelected}
+            toggleStarredCB={toggleStarredCB}
+          />))}
       </div>
     );
   }
