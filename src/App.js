@@ -90,11 +90,21 @@ class App extends Component {
       }, 0);
     }
 
+    // short-circuit: still loading
+    if (!messages) {
+      return (
+        <div>
+          loading.....
+        </div>
+      )
+    }
+
     // render
     return (
       <div className="container App">
         <Toolbar
           setofSelectedMessages={setofSelectedMessages}
+          cntAll={messages.length}
           cntUnread={cntUnread}
         />
         <Messages

@@ -20,9 +20,22 @@ export default class Toolbar extends Component {
   ************************************* */
   render() {
     console.log('Toolbar::render()');
-    const { setofSelectedMessages, cntUnread } = this.props;
-    return (
+    const { setofSelectedMessages, cntAll, cntUnread } = this.props;
 
+    // determine icon for the select_all / clear_all button at left of toolbar
+    let sbtnSelectAll = null;
+    if (!setofSelectedMessages.size) { // none selected
+      sbtnSelectAll = 'far fa-square';
+    } else if (setofSelectedMessages.size === cntAll) { // all selected
+      sbtnSelectAll = 'far fa-check-square';
+    } else { // some selected
+      sbtnSelectAll = 'far fa-minus-square';
+    }
+
+    // detmine if bulk action buttons should be disabled
+    const disableBulkActionButtons = setofSelectedMessages.size === 0;
+
+    return (
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
@@ -35,32 +48,32 @@ export default class Toolbar extends Component {
           </a>
 
           <button type="button" className="btn btn-default">
-            <i className="far fa-check-square" />
+            <i className={sbtnSelectAll} />
           </button>
 
-          <button type="button" className="btn btn-default">
+          <button type="button" className="btn btn-default" disabled={disableBulkActionButtons}>
             Mark As Read
           </button>
 
-          <button type="button" className="btn btn-default">
+          <button type="button" className="btn btn-default" disabled={disableBulkActionButtons}>
             Mark As Unread
           </button>
 
-          <select className="form-control label-select">
+          <select className="form-control label-select" disabled={disableBulkActionButtons}>
             <option>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <select className="form-control label-select">
+          <select className="form-control label-select" disabled={disableBulkActionButtons}>
             <option>Remove label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <button type="button" className="btn btn-default">
+          <button type="button" className="btn btn-default" disabled={disableBulkActionButtons}>
             <i className="far fa-trash-alt" />
           </button>
         </div>
