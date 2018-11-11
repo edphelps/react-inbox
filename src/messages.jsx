@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Message from './message';
 
 /* ******************************************************
-*  Messages lists messages.
-*  State tracks which messages have been clicked on.
+*  Messages component lists messages.
+*  No state
 ********************************************************* */
 export default class Messages extends Component {
   /* **********************************
