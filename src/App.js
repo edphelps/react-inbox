@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-// const model = require('./model.js');
-import MODELloadMessages from './model.js';
-import Toolbar from './toolbar.jsx';
 
+import model from './model';
+import Toolbar from './toolbar';
+import Messages from './messages';
 
 class App extends Component {
   state = {
@@ -34,13 +34,23 @@ class App extends Component {
   }
 
   /* **********************************
+  *  toggleStarred()
+  *  toggle starred state
+  ************************************* */
+  toggleStarred = async (id) => {
+    console.log(`App:toggleStarred(${id})`);
+    await model.asyncToggleStarred(id);
+    this.loadMessages();
+  }
+
+  /* **********************************
   *  loadMessages()
   *  Load messages from the api and setState()
   ************************************* */
   async loadMessages() {
     console.log('App:loadMessages()');
     this.setState({
-      messages: await MODELloadMessages(),
+      messages: await model.asyncLoadMessages(),
     });
   }
 
@@ -48,11 +58,12 @@ class App extends Component {
   *  render()
   ************************************* */
   render() {
-    console.log("messages: ", this.state.messages);
+    console.log('messages: ', this.state.messages);
+    const { messages } = this.state;
     return (
-      <div className="App">
+      <div className="container App">
         <Toolbar />
-        my app
+        <Messages messages={messages} toggleStarredCB={this.toggleStarred} />
       </div>
     );
   }

@@ -1,14 +1,30 @@
 
-export default async function loadMessages() {
-// async function loadMessages() {
+async function asyncLoadMessages() {
   console.log('Model::loadMessages()');
   const response = await fetch('http://localhost:8082/api/messages');
   const json = await response.json();
-  return json
+  return json;
 }
 
-// export default { model: { loadMessages } }
+async function asyncToggleStarred(id) {
+  console.log(`Model::asyncToggleStarred(${id}`);
+  const body = {
+    messageIds: [id],
+    command: 'star',
+  };
+  const response = await fetch('http://localhost:8082/api/messages', {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+  const json = await response.json();
+  return json;
+}
 
-// module.exports = {
-//   loadMessages
-// };
+export default {
+  asyncLoadMessages,
+  asyncToggleStarred,
+};
