@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+/* ******************************************************
+*  Toolbar component .
+*  State:  TODO fill this in, maybe isComposing?
+********************************************************* */
 export default class Toolbar extends Component {
   /* **********************************
   *  constructor
@@ -17,6 +21,7 @@ export default class Toolbar extends Component {
   render() {
     console.log('Toolbar::render()');
     return (
+
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
@@ -24,17 +29,15 @@ export default class Toolbar extends Component {
             unread messages
           </p>
 
-          <button className="btn btn-default" type="button">
-            <i className="fa fa-check-square-o"></i>
+          <button type="button" className="btn btn-default">
+            <i className="far fa-check-square" />
           </button>
 
-
-          {/*<button className="btn btn-default" type="button">*/}
-          <button className="btn btn-default" type="button">
+          <button type="button" className="btn btn-default">
             Mark As Read
           </button>
 
-          <button className="btn btn-default">
+          <button type="button" className="btn btn-default">
             Mark As Unread
           </button>
 
@@ -52,11 +55,11 @@ export default class Toolbar extends Component {
             <option value="gschool">gschool</option>
           </select>
 
-          <button className="btn btn-default">
-            <i className="fa fa-trash-o"></i>
+          <button type="button" className="btn btn-default">
+            <i className="far fa-trash-alt" />
           </button>
         </div>
       </div>
-        );
+    );
   }
 }
