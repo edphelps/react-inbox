@@ -32,7 +32,7 @@ class App extends Component {
   *  load the books and get rendering
   ************************************* */
   async componentDidMount() {
-    console.log('App:componentDidMount()');
+    console.log('App:componentDidMountx()');
     this.loadMessages();
   }
 
@@ -42,14 +42,15 @@ class App extends Component {
   ************************************* */
   toggleSelected = (id) => {
     this.setState((prevState) => {
-      const newState = { ...prevState };
-      if (newState.setofSelectedMessages.has(id)) {
-        newState.setofSelectedMessages.delete(id);
-      } else {
-        newState.setofSelectedMessages.add(id);
-      }
+
+      // toggle the selection
+      const { setofSelectedMessages } = prevState;
+      if (setofSelectedMessages.has(id)) setofSelectedMessages.delete(id);
+      else setofSelectedMessages.add(id);
+
+      // update state
       return {
-        newState,
+        setofSelectedMessages,
       };
     });
   }
@@ -71,18 +72,18 @@ class App extends Component {
   toggleSelectAll = () => {
     console.log('App:toggleSelectAll()');
     this.setState((prevState) => {
-      const newState = { ...prevState };
+      const { setofSelectedMessages, messages } = prevState;
 
       // if there are selections, clear them
-      if (newState.setofSelectedMessages.size) {
-        newState.setofSelectedMessages.clear();
-        // newState.setofSelectedMessages = new Set();
+      if (setofSelectedMessages.size) {
+        setofSelectedMessages.clear();
+
       // else select all messages
       } else {
-        newState.messages.forEach(message => newState.setofSelectedMessages.add(message.id));
+        messages.forEach(message => setofSelectedMessages.add(message.id));
       }
       return {
-        newState,
+        setofSelectedMessages,
       };
     });
   }

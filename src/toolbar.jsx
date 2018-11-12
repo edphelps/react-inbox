@@ -10,9 +10,6 @@ export default class Toolbar extends Component {
   ************************************* */
   constructor(props) {
     super(props);
-    this.state = {
-      isExpanded: false,
-    };
   }
 
   /* **********************************
@@ -49,7 +46,7 @@ export default class Toolbar extends Component {
         <div className="col-md-12">
           <p className="pull-right">
             <span className="badge">{cntUnread}</span>
-            unread message&nbsp;
+            unread message
             {(cntUnread === 1) ? '' : 's'}
           </p>
 
