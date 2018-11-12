@@ -14,6 +14,7 @@ export default class Toolbar extends Component {
     const { toggleSelectAllCB } = this.props;
     toggleSelectAllCB();
   }
+
   /* **********************************
   *  onclickMarkAsRead()
   ************************************* */
@@ -22,6 +23,7 @@ export default class Toolbar extends Component {
     const { markSelectedAsReadCB } = this.props;
     markSelectedAsReadCB();
   }
+
   /* **********************************
   *  onclickMarkAsUnread()
   ************************************* */

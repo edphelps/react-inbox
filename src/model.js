@@ -37,18 +37,20 @@ async function asyncToggleStarred(id) {
 
 
 
+
 /* ******************************************************
-*  asyncMarkAsRead()
-*  Mark selected messages as read.
+*  asyncSetRead()
+*  Mark selected messages as read or unread
 *  aIds - array of mesage id's
+*  flagRead - TRUE to set messages as read, FALSE to set them as unread
 *  returns - json of entire db
 ********************************************************* */
-async function asyncMarkAsRead(aIds) {
-  console.log(`Model::asyncMarkAsRead(${aIds}`);
+async function asyncSetRead(aIds, flagRead) {
+  console.log(`Model::asyncSetRead(`);
   const body = {
     messageIds: aIds,
     command: 'read',
-    read: true,
+    read: flagRead,
   };
   const response = await fetch('http://localhost:8082/api/messages', {
     method: 'PATCH',
@@ -64,6 +66,17 @@ async function asyncMarkAsRead(aIds) {
 }
 
 /* ******************************************************
+*  asyncMarkAsRead()
+*  Mark selected messages as read.
+*  aIds - array of mesage id's
+*  returns - json of entire db
+********************************************************* */
+async function asyncMarkAsRead(aIds) {
+  console.log(`Model::asyncMarkAsRead(${aIds}`);
+  return asyncSetRead(aIds, true);
+}
+
+/* ******************************************************
 *  asyncMarkAsUnread()
 *  Mark selected messages as unread.
 *  aIds - array of mesage id's
@@ -71,22 +84,7 @@ async function asyncMarkAsRead(aIds) {
 ********************************************************* */
 async function asyncMarkAsUnread(aIds) {
   console.log(`Model::asyncMarkAsUnread(${aIds}`);
-  const body = {
-    messageIds: aIds,
-    command: 'read',
-    read: false,
-  };
-  const response = await fetch('http://localhost:8082/api/messages', {
-    method: 'PATCH',
-    body: JSON.stringify(body),
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  });
-  const json = await response.json();
-  console.log("----- json: ", json);
-  return json;
+  return asyncSetRead(aIds, false);
 }
 
 export default {
