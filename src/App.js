@@ -89,6 +89,29 @@ class App extends Component {
   }
 
   /* **********************************
+  *  markSelectedAsRead()
+  ************************************* */
+  markSelectedAsRead = async () => {
+    console.log('App::markSelectedAsRead()');
+    const { setofSelectedMessages } = this.state;
+    const aIds = [...setofSelectedMessages];
+    await model.asyncMarkAsRead(aIds);
+    this.loadMessages();
+  }
+
+  /* **********************************
+  *  markSelectedAsUnread()
+  ************************************* */
+  markSelectedAsUnread = async () => {
+    console.log('App::markSelectedAsUnread()');
+    const { setofSelectedMessages } = this.state;
+    const aIds = [...setofSelectedMessages];
+    await model.asyncMarkAsUnread(aIds);
+    this.loadMessages();
+  }
+
+
+  /* **********************************
   *  loadMessages()
   *  Load messages from the api and setState()
   ************************************* */
@@ -131,6 +154,8 @@ class App extends Component {
           cntAll={messages.length}
           cntUnread={cntUnread}
           toggleSelectAllCB={this.toggleSelectAll}
+          markSelectedAsReadCB={this.markSelectedAsRead}
+          markSelectedAsUnreadCB={this.markSelectedAsUnread}
         />
         <Messages
           messages={messages}

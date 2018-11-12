@@ -35,7 +35,63 @@ async function asyncToggleStarred(id) {
   return json;
 }
 
+
+
+/* ******************************************************
+*  asyncMarkAsRead()
+*  Mark selected messages as read.
+*  aIds - array of mesage id's
+*  returns - json of entire db
+********************************************************* */
+async function asyncMarkAsRead(aIds) {
+  console.log(`Model::asyncMarkAsRead(${aIds}`);
+  const body = {
+    messageIds: aIds,
+    command: 'read',
+    read: true,
+  };
+  const response = await fetch('http://localhost:8082/api/messages', {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+  const json = await response.json();
+  console.log("----- json: ", json);
+  return json;
+}
+
+/* ******************************************************
+*  asyncMarkAsUnread()
+*  Mark selected messages as unread.
+*  aIds - array of mesage id's
+*  returns - json of entire db
+********************************************************* */
+async function asyncMarkAsUnread(aIds) {
+  console.log(`Model::asyncMarkAsUnread(${aIds}`);
+  const body = {
+    messageIds: aIds,
+    command: 'read',
+    read: false,
+  };
+  const response = await fetch('http://localhost:8082/api/messages', {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+  const json = await response.json();
+  console.log("----- json: ", json);
+  return json;
+}
+
 export default {
   asyncLoadMessages,
   asyncToggleStarred,
+  asyncMarkAsRead,
+  asyncMarkAsUnread,
 };

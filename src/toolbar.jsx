@@ -6,19 +6,29 @@ import React, { Component } from 'react';
 ********************************************************* */
 export default class Toolbar extends Component {
   /* **********************************
-  *  constructor
-  ************************************* */
-  constructor(props) {
-    super(props);
-  }
-
-  /* **********************************
+  *  onclickSelectAll()
   *  click the select all / clear all button
   ************************************* */
   onclickSelectAll = () => {
     console.log('Toolbar::onclickSelectAll()');
     const { toggleSelectAllCB } = this.props;
     toggleSelectAllCB();
+  }
+  /* **********************************
+  *  onclickMarkAsRead()
+  ************************************* */
+  onclickMarkAsRead = () => {
+    console.log('Toolbar::onclickMarkAsRead()');
+    const { markSelectedAsReadCB } = this.props;
+    markSelectedAsReadCB();
+  }
+  /* **********************************
+  *  onclickMarkAsUnread()
+  ************************************* */
+  onclickMarkAsUnread = () => {
+    console.log('Toolbar::onclickMarkAsUnread()');
+    const { markSelectedAsUnreadCB } = this.props;
+    markSelectedAsUnreadCB();
   }
 
   /* **********************************
@@ -61,10 +71,10 @@ export default class Toolbar extends Component {
           </button>
 
           {/* bulk actions */}
-          <button type="button" className="btn btn-default" disabled={disableBulkActionButtons}>
+          <button type="button" className="btn btn-default" onClick={this.onclickMarkAsRead} disabled={disableBulkActionButtons}>
             Mark As Read
           </button>
-          <button type="button" className="btn btn-default" disabled={disableBulkActionButtons}>
+          <button type="button" className="btn btn-default" onClick={this.onclickMarkAsUnread} disabled={disableBulkActionButtons}>
             Mark As Unread
           </button>
           <select className="form-control label-select" disabled={disableBulkActionButtons}>
