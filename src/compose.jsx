@@ -3,18 +3,29 @@ import React, { Component } from 'react';
 
 /* ******************************************************
 *  Compose Component displays compose form
-*  State:  no state, TODO: switch to function
+*  Component called even when not showing (isComposing=false renders an empty span)
+*    to ensure it remains in memory and retains the state of the for field.
+*    If the parent didn't render it when it's not showing then when it
+*    next rendered it would be reconstructed and the values for the subject
+*    and body would be back to being blank.
+*  State:  tracks the values of the two input fields
 ********************************************************* */
 export default class Compose extends Component {
 
+  /* **********************************
+  *  constructor()
+  ************************************* */
   constructor(props) {
     super(props);
-    console.log("=============== Compose::constructor() =============");
+    console.log('Compose::constructor()');
   }
 
+  /* **********************************
+  *  state
+  ************************************* */
   state = {
-    subject: 'ss',
-    body: 'bb',
+    subject: '',
+    body: '',
   };
 
   /* **********************************
@@ -22,8 +33,13 @@ export default class Compose extends Component {
   ************************************* */
   onSubmit = (e) => {
     console.log('Compose::onSubmit()');
-
     e.preventDefault();
+
+    const { subject, body } = this.state;
+    this.setState({ subject: '', body: '' });
+
+    const { sendMessageCB } = this.props;
+    sendMessageCB(subject, body);
   }
 
   /* **********************************
@@ -47,6 +63,13 @@ export default class Compose extends Component {
     console.log('Compose::render()');
 
     const { subject, body } = this.state;
+    const { isComposing } = this.props;
+
+    if (!isComposing) {
+      return (
+        <span />
+      );
+    }
 
     return (
       <div>
@@ -66,6 +89,7 @@ export default class Compose extends Component {
                 placeholder="Enter a subject"
                 name="subject"
                 value={subject}
+                autoFocus
                 onChange={this.onChange} />
             </div>
           </div>

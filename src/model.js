@@ -116,6 +116,31 @@ async function asyncDelete(aIds) {
 }
 
 /* ******************************************************
+*  asyncSend()
+*  Sends new message
+*  subject - string
+*  body - string
+*  returns - json of entire db
+********************************************************* */
+async function asyncSend(subject, messageBody) {
+  console.log('Model::asyncSend');
+  const body = {
+    subject,
+    body: messageBody,
+  };
+  const response = await fetch('http://localhost:8082/api/messages', {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+  const json = await response.json();
+  return json;
+}
+
+/* ******************************************************
 *  asyncApplyLabel()
 *  Apply label to messages.
 *  sLabel - label to apply
@@ -175,4 +200,5 @@ export default {
   asyncApplyLabel,
   asyncRemoveLabel,
   asyncDelete,
+  asyncSend,
 };

@@ -155,6 +155,18 @@ class App extends Component {
   }
 
   /* **********************************
+  *  sendMessage()
+  ************************************* */
+  sendMessage = async (subject, body) => {
+    console.log('App::sendMessage()');
+
+    await model.asyncSend(subject, body);
+
+    this.setState({ isComposing: false });
+    this.loadMessages();
+  }
+
+  /* **********************************
   *  applyLabelToSelected()
   ************************************* */
   applyLabelToSelected = async (sLabel) => {
@@ -175,7 +187,6 @@ class App extends Component {
     await model.asyncRemoveLabel(sLabel, aIds);
     this.loadMessages();
   }
-
 
   /* **********************************
   *  loadMessages()
@@ -208,7 +219,7 @@ class App extends Component {
   *  render()
   ************************************* */
   render() {
-    const { messages, selectedMessagesSet } = this.state;
+    const { messages, selectedMessagesSet, isComposing } = this.state;
 
     // get the unread count to pass to toolbar
     let cntUnread = 0;
@@ -228,8 +239,6 @@ class App extends Component {
       );
     }
 
-    const {isComposing} = this.state;
-
     // render
     return (
       <div className="container App">
@@ -245,8 +254,10 @@ class App extends Component {
           deleteSelectedCB={this.deleteSelected}
           toggleComposeCB={this.toggleCompose}
         />
-        {(isComposing) ?
-          <Compose /> : ''}
+        <Compose
+          isComposing={isComposing}
+          sendMessageCB={this.sendMessage}
+        />
         <Messages
           messages={messages}
           selectedMessagesSet={selectedMessagesSet}
