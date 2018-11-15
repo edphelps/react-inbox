@@ -22,7 +22,7 @@ export default class Messages extends Component {
 
     const {
       messages,
-      setofSelectedMessages,
+      selectedMessagesSet,
       toggleStarredCB,
       toggleSelectedCB
     } = this.props;
@@ -42,7 +42,7 @@ export default class Messages extends Component {
           <Message
             key={message.id}
             message={message}
-            selected={setofSelectedMessages.has(message.id)}
+            selected={selectedMessagesSet.has(message.id)}
             toggleSelectedCB={toggleSelectedCB}
             toggleStarredCB={toggleStarredCB}
           />))}

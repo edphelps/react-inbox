@@ -27,7 +27,6 @@ const Labels = ({ labels }) => {
 *  State:  no state, TODO: switch to function
 ********************************************************* */
 export default class Message extends Component {
-
   /* **********************************
   *  onclickStar
   ************************************* */

@@ -43,6 +43,15 @@ export default class Toolbar extends Component {
   }
 
   /* **********************************
+  *  onclickCompose()
+  ************************************* */
+  onclickCompose = () => {
+    console.log('Toolbar::onclickCompose()');
+    const { toggleComposeCB } = this.props;
+    toggleComposeCB();
+  }
+
+  /* **********************************
   *  onchangeApplyLabel()
   ************************************* */
   onchangeApplyLabel = (e) => {
@@ -83,20 +92,20 @@ export default class Toolbar extends Component {
   ************************************* */
   render() {
     console.log('Toolbar::render()');
-    const { setofSelectedMessages, cntAll, cntUnread } = this.props;
+    const { selectedMessagesSet, cntAll, cntUnread } = this.props;
 
     // determine icon for the select_all / clear_all button at left of toolbar
     let sbtnSelectAll = null;
-    if (!setofSelectedMessages.size) { // none selected
+    if (!selectedMessagesSet.size) { // none selected
       sbtnSelectAll = 'far fa-square';
-    } else if (setofSelectedMessages.size === cntAll) { // all selected
+    } else if (selectedMessagesSet.size === cntAll) { // all selected
       sbtnSelectAll = 'far fa-check-square';
     } else { // some selected
       sbtnSelectAll = 'far fa-minus-square';
     }
 
     // detmine if bulk action buttons should be disabled
-    const disableBulkActionButtons = setofSelectedMessages.size === 0;
+    const disableBulkActionButtons = selectedMessagesSet.size === 0;
 
     return (
       <div className="row toolbar">
@@ -108,7 +117,7 @@ export default class Toolbar extends Component {
           </p>
 
           {/* Compose new message */}
-          <a className="btn btn-danger">
+          <a className="btn btn-danger" onClick={this.onclickCompose}>
             <i className="fa fa-plus" />
           </a>
 

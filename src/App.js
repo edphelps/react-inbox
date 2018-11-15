@@ -10,12 +10,16 @@ import './App.css';
 import model from './model';
 import Toolbar from './toolbar';
 import Messages from './messages';
+import Compose from './compose';
 
 class App extends Component {
   state = {
 
     // track which messages have been selected (via checkbox)
-    setofSelectedMessages: new Set(),
+    selectedMessagesSet: new Set(),
+
+    // are we in compose mode
+    isComposing: false,
 
     // ----------------
     // DON'T DELETE!!!!
@@ -50,14 +54,24 @@ class App extends Component {
     this.setState((prevState) => {
 
       // toggle the selection
-      const { setofSelectedMessages } = prevState;
-      if (setofSelectedMessages.has(id)) setofSelectedMessages.delete(id);
-      else setofSelectedMessages.add(id);
+      const { selectedMessagesSet } = prevState;
+      if (selectedMessagesSet.has(id)) selectedMessagesSet.delete(id);
+      else selectedMessagesSet.add(id);
 
       // update state
       return {
-        setofSelectedMessages,
+        selectedMessagesSet,
       };
+    });
+  }
+
+  /* **********************************
+  *  toggleCompose()
+  *  Called when compose button on toolbar is clicked
+  ************************************* */
+  toggleCompose= () => {
+    this.setState({
+      isComposing: !this.state.isComposing,
     });
   }
 
@@ -78,18 +92,18 @@ class App extends Component {
   toggleSelectAll = () => {
     console.log('App:toggleSelectAll()');
     this.setState((prevState) => {
-      const { setofSelectedMessages, messages } = prevState;
+      const { selectedMessagesSet, messages } = prevState;
 
       // if there are selections, clear them
-      if (setofSelectedMessages.size) {
-        setofSelectedMessages.clear();
+      if (selectedMessagesSet.size) {
+        selectedMessagesSet.clear();
 
       // else select all messages
       } else {
-        messages.forEach(message => setofSelectedMessages.add(message.id));
+        messages.forEach(message => selectedMessagesSet.add(message.id));
       }
       return {
-        setofSelectedMessages,
+        selectedMessagesSet,
       };
     });
   }
@@ -99,8 +113,8 @@ class App extends Component {
   ************************************* */
   markSelectedAsRead = async () => {
     console.log('App::markSelectedAsRead()');
-    const { setofSelectedMessages } = this.state;
-    const aIds = [...setofSelectedMessages];
+    const { selectedMessagesSet } = this.state;
+    const aIds = [...selectedMessagesSet];
     await model.asyncMarkAsRead(aIds);
     this.loadMessages();
   }
@@ -110,8 +124,8 @@ class App extends Component {
   ************************************* */
   markSelectedAsUnread = async () => {
     console.log('App::markSelectedAsUnread()');
-    const { setofSelectedMessages } = this.state;
-    const aIds = [...setofSelectedMessages];
+    const { selectedMessagesSet } = this.state;
+    const aIds = [...selectedMessagesSet];
     await model.asyncMarkAsUnread(aIds);
     this.loadMessages();
   }
@@ -121,19 +135,19 @@ class App extends Component {
   ************************************* */
   deleteSelected = async () => {
     console.log('App::deleteSelected()');
-    const { setofSelectedMessages } = this.state;
-    const aIds = [...setofSelectedMessages];
+    const { selectedMessagesSet } = this.state;
+    const aIds = [...selectedMessagesSet];
     await model.asyncDelete(aIds);
 
     this.setState((prevState) => {
 
       // ckear all selections
-      const { setofSelectedMessages } = prevState;
-      setofSelectedMessages.clear();
+      const { selectedMessagesSet } = prevState;
+      selectedMessagesSet.clear();
 
       // update state
       return {
-        setofSelectedMessages,
+        selectedMessagesSet,
       };
     });
 
@@ -145,8 +159,8 @@ class App extends Component {
   ************************************* */
   applyLabelToSelected = async (sLabel) => {
     console.log(`App::applyLabelToSelected(${sLabel})`);
-    const { setofSelectedMessages } = this.state;
-    const aIds = [...setofSelectedMessages];
+    const { selectedMessagesSet } = this.state;
+    const aIds = [...selectedMessagesSet];
     await model.asyncApplyLabel(sLabel, aIds);
     this.loadMessages();
   }
@@ -156,8 +170,8 @@ class App extends Component {
   ************************************* */
   removeLabelFromSelected = async (sLabel) => {
     console.log(`App::removeLabelFromSelected(${sLabel})`);
-    const { setofSelectedMessages } = this.state;
-    const aIds = [...setofSelectedMessages];
+    const { selectedMessagesSet } = this.state;
+    const aIds = [...selectedMessagesSet];
     await model.asyncRemoveLabel(sLabel, aIds);
     this.loadMessages();
   }
@@ -175,29 +189,26 @@ class App extends Component {
     } catch (err) {
       console.log('ERROR loadMessages(): ', err);
       messages = [
-       {
+        {
           body: 'no body',
           id: 0,
           labels: [],
           read: true,
           starred: true,
-          subject: 'ERROR: backend db server needs to be started: collective-api application'
-       },
-     ];
+          subject: 'ERROR: backend db server needs to be started: collective-api application',
+        },
+      ];
     }
     this.setState({
       messages,
     });
-    // this.setState({
-    //   messages: await model.asyncLoadMessages(),
-    // });
   }
 
   /* **********************************
   *  render()
   ************************************* */
   render() {
-    const { messages, setofSelectedMessages } = this.state;
+    const { messages, selectedMessagesSet } = this.state;
 
     // get the unread count to pass to toolbar
     let cntUnread = 0;
@@ -214,14 +225,16 @@ class App extends Component {
         <div>
           loading.....
         </div>
-      )
+      );
     }
+
+    const {isComposing} = this.state;
 
     // render
     return (
       <div className="container App">
         <Toolbar
-          setofSelectedMessages={setofSelectedMessages}
+          selectedMessagesSet={selectedMessagesSet}
           cntAll={messages.length}
           cntUnread={cntUnread}
           toggleSelectAllCB={this.toggleSelectAll}
@@ -230,10 +243,13 @@ class App extends Component {
           applyLabelToSelectedCB={this.applyLabelToSelected}
           removeLabelFromSelectedCB={this.removeLabelFromSelected}
           deleteSelectedCB={this.deleteSelected}
+          toggleComposeCB={this.toggleCompose}
         />
+        {(isComposing) ?
+          <Compose /> : ''}
         <Messages
           messages={messages}
-          setofSelectedMessages={setofSelectedMessages}
+          selectedMessagesSet={selectedMessagesSet}
           toggleStarredCB={this.toggleStarred}
           toggleSelectedCB={this.toggleSelected}
         />
