@@ -1,15 +1,43 @@
 import React, { Component } from 'react';
 
 
-
 /* ******************************************************
 *  Compose Component displays compose form
 *  State:  no state, TODO: switch to function
 ********************************************************* */
 export default class Compose extends Component {
 
-  test() {
-    console.log('test');
+  constructor(props) {
+    super(props);
+    console.log("=============== Compose::constructor() =============");
+  }
+
+  state = {
+    subject: 'ss',
+    body: 'bb',
+  };
+
+  /* **********************************
+  *  onSubmit()
+  ************************************* */
+  onSubmit = (e) => {
+    console.log('Compose::onSubmit()');
+
+    e.preventDefault();
+  }
+
+  /* **********************************
+  *  onChange()
+  ************************************* */
+  onChange = () => {
+    console.log('Compose:onChange()');
+
+    this.setState(
+      {
+        subject: document.forms.composeForm.subject.value,
+        body: document.forms.composeForm.body.value,
+      },
+    );
   }
 
   /* **********************************
@@ -18,37 +46,48 @@ export default class Compose extends Component {
   render() {
     console.log('Compose::render()');
 
+    const { subject, body } = this.state;
+
     return (
       <div>
-        <form class="form-horizontal well">
-          <div class="form-group">
-            <div class="col-sm-8 col-sm-offset-2">
+        <form id="composeForm" className="form-horizontal well" onSubmit={this.onSubmit}>
+          <div className="form-group">
+            <div className="col-sm-8 col-sm-offset-2">
               <h4>Compose Message</h4>
             </div>
           </div>
-          <div class="form-group">
-            <label for="subject" class="col-sm-2 control-label">Subject</label>
-            <div class="col-sm-8">
+          <div className="form-group">
+            <label htmlFor="subject" className="col-sm-2 control-label">Subject</label>
+            <div className="col-sm-8">
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 id="subject"
                 placeholder="Enter a subject"
-                name="subject" />
+                name="subject"
+                value={subject}
+                onChange={this.onChange} />
             </div>
           </div>
-          <div class="form-group">
-            <label for="body" class="col-sm-2 control-label">Body</label>
-            <div class="col-sm-8">
-              <textarea name="body" id="body" class="form-control"></textarea>
+          <div className="form-group">
+            <label htmlFor="body" className="col-sm-2 control-label">Body</label>
+            <div className="col-sm-8">
+              <textarea
+                name="body"
+                id="body"
+                className="form-control"
+                value={body}
+                onChange={this.onChange}
+              />
             </div>
           </div>
-          <div class="form-group">
-            <div class="col-sm-8 col-sm-offset-2">
+          <div className="form-group">
+            <div className="col-sm-8 col-sm-offset-2">
               <input
                 type="submit"
                 value="Send"
-                class="btn btn-primary" />
+                className="btn btn-primary"
+              />
             </div>
           </div>
         </form>
