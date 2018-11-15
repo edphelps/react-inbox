@@ -23,12 +23,31 @@ const Labels = ({ labels }) => {
 };
 
 /* ******************************************************
+*  MessageBody displays the body of a message
+********************************************************* */
+const MessageBody = ({ body }) => {
+  console.log('MessageBody::render');
+  return (
+    <div className="row message-body">
+      <div className="col-xs-11 col-xs-offset-1">
+        {body}
+      </div>
+    </div>
+  );
+};
+
+/* ******************************************************
 *  Message Component displays a message.
 *  State:  no state, TODO: switch to function
 ********************************************************* */
 export default class Message extends Component {
+  state = {
+    // is the message expanded to show its body?
+    isExpanded: false,
+  }
   /* **********************************
   *  onclickStar
+  *  Did user click star?
   ************************************* */
   onclickStar = () => {
     console.log('Message::onclickStar');
@@ -39,6 +58,7 @@ export default class Message extends Component {
 
   /* **********************************
   *  onchangeSelected
+  *  Did user click the checkbox to select the message?
   ************************************* */
   onchangeSelected = () => {
     console.log('Message::onchangeSelected');
@@ -48,14 +68,22 @@ export default class Message extends Component {
   }
 
   /* **********************************
+  *  onClickMessage
+  *  Click on message to expand / contract the message body
+  ************************************* */
+  onClickMessage = () => {
+    console.log('Message::onClickMessage');
+    this.setState({ isExpanded: !this.state.isExpanded})
+  }
+
+  /* **********************************
   *  render()
   ************************************* */
   render() {
     console.log('Message::render()');
     const { message, selected } = this.props;
-    const {
-      body, id, labels, read, starred, subject
-    } = message;
+    const { body, id, labels, read, starred, subject} = message;
+    const { isExpanded } = this.state;
 
     return (
       <div>
@@ -72,9 +100,10 @@ export default class Message extends Component {
           </div>
           <div className="col-xs-11">
             <Labels labels={labels} />
-            <a href="#">{subject}</a>
+            <a href="#" onClick={this.onClickMessage}>{subject}</a>
           </div>
         </div>
+        {isExpanded ? (<MessageBody body={body} />) : ('')}
       </div>
     );
   }

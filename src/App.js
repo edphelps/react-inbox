@@ -1,8 +1,9 @@
 
+
 // TO RUN:
+//
 // -- MUST BE running the data server from project "collective-api"
 // -- http://localhost:3000/
-
 
 import React, { Component } from 'react';
 import './App.css';
@@ -52,7 +53,6 @@ class App extends Component {
   ************************************* */
   toggleSelected = (id) => {
     this.setState((prevState) => {
-
       // toggle the selection
       const { selectedMessagesSet } = prevState;
       if (selectedMessagesSet.has(id)) selectedMessagesSet.delete(id);
@@ -70,8 +70,9 @@ class App extends Component {
   *  Called when compose button on toolbar is clicked
   ************************************* */
   toggleCompose= () => {
+    const { isComposing } = this.state;
     this.setState({
-      isComposing: !this.state.isComposing,
+      isComposing: !isComposing,
     });
   }
 
@@ -140,7 +141,6 @@ class App extends Component {
     await model.asyncDelete(aIds);
 
     this.setState((prevState) => {
-
       // ckear all selections
       const { selectedMessagesSet } = prevState;
       selectedMessagesSet.clear();
