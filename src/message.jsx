@@ -27,15 +27,6 @@ const Labels = ({ labels }) => {
 *  State:  no state, TODO: switch to function
 ********************************************************* */
 export default class Message extends Component {
-  /* **********************************
-  *  constructor
-  ************************************* */
-  constructor(props) {
-    super(props);
-    // this.state = {
-    //   isSelected: false,
-    // };
-  }
 
   /* **********************************
   *  onclickStar

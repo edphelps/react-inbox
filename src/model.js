@@ -6,8 +6,15 @@
 ********************************************************* */
 async function asyncLoadMessages() {
   console.log('Model::loadMessages()');
-  const response = await fetch('http://localhost:8082/api/messages');
-  const json = await response.json();
+  let json = null;
+  try {
+    const response = await fetch('http://localhost:8082/api/messages');
+    json = await response.json();
+  } catch (err) {
+    console.log('ERROR asyncLoadMessages: ', err);
+    json = { error: 'failed to load messages from db' };
+    throw new Error("unable to load messages, check that the data server is running: collective-api application")
+  }
   return json;
 }
 
@@ -34,9 +41,6 @@ async function asyncToggleStarred(id) {
   const json = await response.json();
   return json;
 }
-
-
-
 
 /* ******************************************************
 *  asyncSetRead()
@@ -87,9 +91,88 @@ async function asyncMarkAsUnread(aIds) {
   return asyncSetRead(aIds, false);
 }
 
+/* ******************************************************
+*  asyncDelete()
+*  Delete selected messages
+*  aIds - array of mesage id's
+*  returns - json of entire db
+********************************************************* */
+async function asyncDelete(aIds) {
+  console.log(`Model::asyncDelete(${aIds}`);
+  const body = {
+    messageIds: aIds,
+    command: 'delete',
+  };
+  const response = await fetch('http://localhost:8082/api/messages', {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+  const json = await response.json();
+  return json;
+}
+
+/* ******************************************************
+*  asyncApplyLabel()
+*  Apply label to messages.
+*  sLabel - label to apply
+*  aIds - array of message ids to apply label to
+*  returns - json of entire db
+********************************************************* */
+async function asyncApplyLabel(sLabel, aIds) {
+  console.log(`Model::asyncApplyLabel(${sLabel}`);
+  const body = {
+    messageIds: aIds,
+    command: 'addLabel',
+    label: sLabel,
+  };
+  const response = await fetch('http://localhost:8082/api/messages', {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+  const json = await response.json();
+  return json;
+}
+
+/* ******************************************************
+*  asyncRemoveLabel()
+*  Remove label from messages.
+*  sLabel - label to remove
+*  aIds - array of message ids to remove label from
+*  returns - json of entire db
+********************************************************* */
+async function asyncRemoveLabel(sLabel, aIds) {
+  console.log(`Model::asyncRemoveLabel(${sLabel}`);
+  const body = {
+    messageIds: aIds,
+    command: 'removeLabel',
+    label: sLabel,
+  };
+  const response = await fetch('http://localhost:8082/api/messages', {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+  const json = await response.json();
+  return json;
+}
+
 export default {
   asyncLoadMessages,
   asyncToggleStarred,
   asyncMarkAsRead,
   asyncMarkAsUnread,
+  asyncApplyLabel,
+  asyncRemoveLabel,
+  asyncDelete,
 };

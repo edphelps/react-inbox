@@ -34,6 +34,51 @@ export default class Toolbar extends Component {
   }
 
   /* **********************************
+  *  onclickDelete()
+  ************************************* */
+  onclickDelete = () => {
+    console.log('Toolbar::onclickDelete()');
+    const { deleteSelectedCB } = this.props;
+    deleteSelectedCB();
+  }
+
+  /* **********************************
+  *  onchangeApplyLabel()
+  ************************************* */
+  onchangeApplyLabel = (e) => {
+    console.log('Toolbar::onselectApplyLabel: ', e.target.options[e.target.selectedIndex].text);
+
+    const { applyLabelToSelectedCB } = this.props;
+    const idx = e.target.selectedIndex;
+
+    // first selection in list is a heading, not a label
+    if (idx === 0) return;
+
+    applyLabelToSelectedCB(e.target.options[idx].text);
+
+    // reset selection to the heading for the list
+    e.target.selectedIndex = 0;
+  }
+
+  /* **********************************
+  *  onchangeRemoveLabel()
+  ************************************* */
+  onchangeRemoveLabel = (e) => {
+    console.log('Toolbar::onselectRemoveLabel: ', e.target.options[e.target.selectedIndex].text);
+
+    const { removeLabelFromSelectedCB } = this.props;
+    const idx = e.target.selectedIndex;
+
+    // first selection in list is a heading, not a label
+    if (idx === 0) return;
+
+    removeLabelFromSelectedCB(e.target.options[idx].text);
+
+    // reset selection to the heading for the list
+    e.target.selectedIndex = 0;
+  }
+
+  /* **********************************
   *  render()
   ************************************* */
   render() {
@@ -79,13 +124,13 @@ export default class Toolbar extends Component {
           <button type="button" className="btn btn-default" onClick={this.onclickMarkAsUnread} disabled={disableBulkActionButtons}>
             Mark As Unread
           </button>
-          <select className="form-control label-select" disabled={disableBulkActionButtons}>
+          <select className="form-control label-select" onChange={this.onchangeApplyLabel} disabled={disableBulkActionButtons}>
             <option>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
-          <select className="form-control label-select" disabled={disableBulkActionButtons}>
+          <select className="form-control label-select" onChange={this.onchangeRemoveLabel} disabled={disableBulkActionButtons}>
             <option>Remove label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
@@ -93,7 +138,7 @@ export default class Toolbar extends Component {
           </select>
 
           {/* trash can */}
-          <button type="button" className="btn btn-default" disabled={disableBulkActionButtons}>
+          <button type="button" className="btn btn-default" onClick={this.onclickDelete} disabled={disableBulkActionButtons}>
             <i className="far fa-trash-alt" />
           </button>
         </div>

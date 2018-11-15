@@ -1,3 +1,9 @@
+
+// TO RUN:
+// -- MUST BE running the data server from project "collective-api"
+// -- http://localhost:3000/
+
+
 import React, { Component } from 'react';
 import './App.css';
 
@@ -110,6 +116,52 @@ class App extends Component {
     this.loadMessages();
   }
 
+  /* **********************************
+  *  deleteSelected()
+  ************************************* */
+  deleteSelected = async () => {
+    console.log('App::deleteSelected()');
+    const { setofSelectedMessages } = this.state;
+    const aIds = [...setofSelectedMessages];
+    await model.asyncDelete(aIds);
+
+    this.setState((prevState) => {
+
+      // ckear all selections
+      const { setofSelectedMessages } = prevState;
+      setofSelectedMessages.clear();
+
+      // update state
+      return {
+        setofSelectedMessages,
+      };
+    });
+
+    this.loadMessages();
+  }
+
+  /* **********************************
+  *  applyLabelToSelected()
+  ************************************* */
+  applyLabelToSelected = async (sLabel) => {
+    console.log(`App::applyLabelToSelected(${sLabel})`);
+    const { setofSelectedMessages } = this.state;
+    const aIds = [...setofSelectedMessages];
+    await model.asyncApplyLabel(sLabel, aIds);
+    this.loadMessages();
+  }
+
+  /* **********************************
+  *  removeLabelFromSelected()
+  ************************************* */
+  removeLabelFromSelected = async (sLabel) => {
+    console.log(`App::removeLabelFromSelected(${sLabel})`);
+    const { setofSelectedMessages } = this.state;
+    const aIds = [...setofSelectedMessages];
+    await model.asyncRemoveLabel(sLabel, aIds);
+    this.loadMessages();
+  }
+
 
   /* **********************************
   *  loadMessages()
@@ -117,9 +169,28 @@ class App extends Component {
   ************************************* */
   async loadMessages() {
     console.log('App:loadMessages()');
+    let messages = [];
+    try {
+      messages = await model.asyncLoadMessages();
+    } catch (err) {
+      console.log('ERROR loadMessages(): ', err);
+      messages = [
+       {
+          body: 'no body',
+          id: 0,
+          labels: [],
+          read: true,
+          starred: true,
+          subject: 'ERROR: backend db server needs to be started: collective-api application'
+       },
+     ];
+    }
     this.setState({
-      messages: await model.asyncLoadMessages(),
+      messages,
     });
+    // this.setState({
+    //   messages: await model.asyncLoadMessages(),
+    // });
   }
 
   /* **********************************
@@ -156,6 +227,9 @@ class App extends Component {
           toggleSelectAllCB={this.toggleSelectAll}
           markSelectedAsReadCB={this.markSelectedAsRead}
           markSelectedAsUnreadCB={this.markSelectedAsUnread}
+          applyLabelToSelectedCB={this.applyLabelToSelected}
+          removeLabelFromSelectedCB={this.removeLabelFromSelected}
+          deleteSelectedCB={this.deleteSelected}
         />
         <Messages
           messages={messages}
