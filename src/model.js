@@ -13,7 +13,7 @@ async function asyncLoadMessages() {
   } catch (err) {
     console.log('ERROR asyncLoadMessages: ', err);
     json = { error: 'failed to load messages from db' };
-    throw new Error("unable to load messages, check that the data server is running: collective-api application")
+    throw new Error('unable to load messages, check that the data server is running: collective-api application');
   }
   return json;
 }
@@ -50,7 +50,7 @@ async function asyncToggleStarred(id) {
 *  returns - json of entire db
 ********************************************************* */
 async function asyncSetRead(aIds, flagRead) {
-  console.log(`Model::asyncSetRead(`);
+  console.log('Model::asyncSetRead()');
   const body = {
     messageIds: aIds,
     command: 'read',
@@ -65,7 +65,6 @@ async function asyncSetRead(aIds, flagRead) {
     },
   });
   const json = await response.json();
-  console.log("----- json: ", json);
   return json;
 }
 

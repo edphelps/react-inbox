@@ -10,7 +10,7 @@ export default class Messages extends Component {
   *  constructor, TODO: get rid of this
   ************************************* */
   constructor(props) {
-    console.log("Messages::constructor()");
+    console.log('Messages::constructor()');
     super(props);
   }
 

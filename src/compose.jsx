@@ -11,7 +11,6 @@ import React, { Component } from 'react';
 *  State:  tracks the values of the two input fields
 ********************************************************* */
 export default class Compose extends Component {
-
   /* **********************************
   *  constructor()
   ************************************* */

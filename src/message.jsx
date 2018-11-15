@@ -45,6 +45,7 @@ export default class Message extends Component {
     // is the message expanded to show its body?
     isExpanded: false,
   }
+
   /* **********************************
   *  onclickStar
   *  Did user click star?
@@ -73,7 +74,8 @@ export default class Message extends Component {
   ************************************* */
   onClickMessage = () => {
     console.log('Message::onClickMessage');
-    this.setState({ isExpanded: !this.state.isExpanded})
+    const { isExpanded } = this.state;
+    this.setState({ isExpanded: !isExpanded });
   }
 
   /* **********************************

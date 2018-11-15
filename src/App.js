@@ -140,11 +140,9 @@ class App extends Component {
     const aIds = [...selectedMessagesSet];
     await model.asyncDelete(aIds);
 
-    this.setState((prevState) => {
+    this.setState(() => {
       // ckear all selections
-      const { selectedMessagesSet } = prevState;
       selectedMessagesSet.clear();
-
       // update state
       return {
         selectedMessagesSet,
