@@ -24,7 +24,8 @@ export default class Messages extends Component {
       messages,
       selectedMessagesSet,
       toggleStarredCB,
-      toggleSelectedCB
+      toggleSelectedCB,
+      markMessageReadCB,
     } = this.props;
 
     // if still loading...
@@ -45,6 +46,7 @@ export default class Messages extends Component {
             selected={selectedMessagesSet.has(message.id)}
             toggleSelectedCB={toggleSelectedCB}
             toggleStarredCB={toggleStarredCB}
+            markMessageReadCB={markMessageReadCB}
           />))}
       </div>
     );

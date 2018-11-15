@@ -75,6 +75,14 @@ export default class Message extends Component {
   onClickMessage = () => {
     console.log('Message::onClickMessage');
     const { isExpanded } = this.state;
+    const { message } = this.props;
+    const { read } = message;
+    // if expanding and unread, mark message as read
+    if (!isExpanded && !read) {
+      const { markMessageReadCB, message } = this.props;
+      const { id } = message;
+      markMessageReadCB(id)
+    }
     this.setState({ isExpanded: !isExpanded });
   }
 

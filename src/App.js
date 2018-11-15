@@ -87,6 +87,17 @@ class App extends Component {
   }
 
   /* **********************************
+  *  markMessageRead()
+  *  nark a message as read
+  ************************************* */
+  markMessageRead = async (id) => {
+    console.log(`App:markMessageRead(${id})`);
+    const aIds = [id];
+    await model.asyncMarkAsRead(aIds);
+    this.loadMessages();
+  }
+
+  /* **********************************
   *  toggleSelectAll()
   *  toggle selection of all messages or clear message selection
   ************************************* */
@@ -261,6 +272,7 @@ class App extends Component {
           selectedMessagesSet={selectedMessagesSet}
           toggleStarredCB={this.toggleStarred}
           toggleSelectedCB={this.toggleSelected}
+          markMessageReadCB={this.markMessageRead}
         />
       </div>
     );
