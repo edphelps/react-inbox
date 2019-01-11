@@ -5,9 +5,11 @@ Presents a basic inbox that allows interaction with messages read / unread statu
 
 Requires collective-api running as the data server.
 
+### Main view
+
 ![Example](screenshots/screen01.png)
 
-![Example](screenshots/screen02.png)
+### Add new message
 
 ![Example](screenshots/screen03.png)
 
