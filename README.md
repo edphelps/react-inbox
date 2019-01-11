@@ -1,14 +1,17 @@
 
+## About Application
 
+Presents a basic inbox that allows interaction with messages read / unread status, adding / removing stars and labels.  Can add and delete messages.
 
-***
+Requires collective-api running as the data server.
 
-MUST BE running the data server from project collective-api
+![Example](screenshots/screen01.png)
 
-***
+![Example](screenshots/screen02.png)
 
+![Example](screenshots/screen03.png)
 
-
+<hr>
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
