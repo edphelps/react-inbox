@@ -1,17 +1,30 @@
 
 ## About Application
 
-Presents a basic inbox that allows interaction with messages read / unread status, adding / removing stars and labels.  Can add and delete messages.
+Presents a basic inbox using React allowing interaction with messages: 
+
+- add new message
+- delete message
+- read message
+- selection multiple messages
+- change read status
+- star message
+- add/remove labels
 
 Requires collective-api running as the data server.
+
 
 ### Main view
 
 ![Example](screenshots/screen01.png)
 
+
 ### Add new message
 
 ![Example](screenshots/screen03.png)
+
+
+
 
 <hr>
 
